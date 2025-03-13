@@ -8,6 +8,7 @@ class TodoController extends GetxController {
   var todoList = <TodoModel>[].obs; // รายการงานแบบ Observable
   StorageService storageService = StorageService();
   AuthController authController = Get.put(AuthController());
+  
 
   @override
   Future<void> onInit() async {
@@ -15,12 +16,12 @@ class TodoController extends GetxController {
     await fetchTodos(); // ดึงข้อมูลงานที่บันทึกไว้
   }
 
-  Future<void> addTodo(String title, String text) async {
+  Future<void> addTodo(String title, String subtitle) async {
     try {
       String? uid = authController.user.value?.uid;
       if (uid == null) return;
 
-      TodoModel newTodo = TodoModel(uid: uid, title: title);
+      TodoModel newTodo = TodoModel(uid: uid, title: title, subtitle: subtitle);
       String docId = await storageService.write(
         AppKey.todoList,
         newTodo.toJson(),

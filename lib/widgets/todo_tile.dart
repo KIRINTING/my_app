@@ -6,13 +6,19 @@ class TodoTile extends StatelessWidget {
   final VoidCallback onToggle;
   final VoidCallback onDelete;
 
-  TodoTile({required this.todo, required this.onToggle, required this.onDelete, required subtitle});
+  TodoTile({required this.todo, required this.onToggle, required this.onDelete, required subtitle, required Text title});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
         todo.title,
+        style: TextStyle(
+          decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+        ),
+      ),
+      subtitle: Text(
+        todo.subtitle,
         style: TextStyle(
           decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
         ),

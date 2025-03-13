@@ -16,7 +16,10 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('LOGIN'),
+        ),
       body: Container(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -45,12 +48,50 @@ class LoginView extends StatelessWidget {
                 emailController.clear();
                 passwordController.clear();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,  // สีปกติของปุ่ม
+                foregroundColor: Colors.white,    // สีข้อความ
+                shadowColor: Colors.white10,      // เงาของปุ่ม
+                elevation: 4,                     // ยกปุ่มขึ้นให้ดูเด่น
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // ทำให้ขอบมน
+                ),
+              ).copyWith(
+                overlayColor: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.hovered)) {
+                    return Colors.blueAccent.withOpacity(0.2); // เปลี่ยนสีพื้นหลังเมื่อ hover
+                  }
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.blueAccent.withOpacity(0.4); // เปลี่ยนสีเมื่อคลิก
+                  }
+                  return null;
+                }),
+              ),
               child: Text('Login'),
             ),
             ElevatedButton(
               onPressed: () {
                 Get.to(RegisterView());
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,  // สีปกติของปุ่ม
+                foregroundColor: Colors.white,    // สีข้อความ
+                shadowColor: Colors.white10,      // เงาของปุ่ม
+                elevation: 4,                     // ยกปุ่มขึ้นให้ดูเด่น
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // ทำให้ขอบมน
+                ),
+              ).copyWith(
+                overlayColor: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.hovered)) {
+                    return Colors.blueAccent.withOpacity(0.2); // เปลี่ยนสีพื้นหลังเมื่อ hover
+                  }
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.blueAccent.withOpacity(0.4); // เปลี่ยนสีเมื่อคลิก
+                  }
+                  return null;
+                }),
+              ),
               child: Text('Register'),
             ),
           ],

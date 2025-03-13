@@ -5,6 +5,7 @@ import 'package:my_app/widgets/app_text_field.dart';
 
 // ignore: must_be_immutable
 class RegisterView extends StatelessWidget {
+  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -39,7 +40,8 @@ class RegisterView extends StatelessWidget {
                   Get.snackbar('Error', 'Password does not match');
                   return;
                 }
-                authController.register(emailController.text, passwordController.text);
+
+                authController.register(emailController.text, passwordController.text,);
                 emailController.clear();
                 passwordController.clear();
                 confirmPasswordController.clear();
