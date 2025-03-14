@@ -5,8 +5,15 @@ class TodoTile extends StatelessWidget {
   final TodoModel todo;
   final VoidCallback onToggle;
   final VoidCallback onDelete;
+  final VoidCallback onTap;
 
-  TodoTile({required this.todo, required this.onToggle, required this.onDelete, required subtitle, required Text title});
+  TodoTile(
+      {required this.todo,
+      required this.onToggle,
+      required this.onDelete,
+      required subtitle,
+      required Text title,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +38,9 @@ class TodoTile extends StatelessWidget {
         icon: Icon(Icons.delete),
         onPressed: onDelete,
       ),
+      onTap: () {
+        onTap();
+      },
     );
   }
 }

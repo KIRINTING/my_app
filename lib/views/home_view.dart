@@ -12,18 +12,41 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('To-Do List'),
-        backgroundColor:Colors.black12,
-        actions: [
-          IconButton(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('My App'),
+          backgroundColor: Colors.black12,
+          actions: [
+            IconButton(
               onPressed: () {
                 authController.logout();
               },
-              icon: Icon(Icons.logout)),
-        ],
+              icon: Icon(Icons.logout),
+            ),
+          ],
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Home', icon: Icon(Icons.home)),
+              Tab(text: 'Store', icon: Icon(Icons.store)),
+              Tab(text: 'User Info', icon: Icon(Icons.person)),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            buildHomeTab(),
+            buildStoreTab(),
+            buildUserInfoTab(),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget buildHomeTab() {
+    return Scaffold(
       body: Obx(
         () => ListView.builder(
           itemCount: todoController.todoList.length,
@@ -45,6 +68,9 @@ class HomeView extends StatelessWidget {
                   snackPosition: SnackPosition.BOTTOM,
                 );
               },
+              onTap: () {
+                Get.to(() => AddTodoView(todo: todo));
+              },
             );
           },
         ),
@@ -53,6 +79,18 @@ class HomeView extends StatelessWidget {
         onPressed: () => Get.to(() => AddTodoView()), // ไปหน้าเพิ่มรายการ
         child: Icon(Icons.add),
       ),
+    );
+  }
+
+  Widget buildStoreTab() {
+    return Center(
+      child: Text('Store Page'),
+    );
+  }
+
+  Widget buildUserInfoTab() {
+    return Center(
+      child: Text('User Info Page'),
     );
   }
 }

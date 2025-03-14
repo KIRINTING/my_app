@@ -65,4 +65,11 @@ class TodoController extends GetxController {
     var todos = await storageService.read(AppKey.todoList, uid: authController.user.value?.uid);
     todoList.value = todos.map((e) => TodoModel.fromJson(e)).toList();
   }
+
+  Future<void> updateTodo(TodoModel todo) async {
+    todoList.firstWhere((todo) => todo.docId == todo.docId).title;
+    todoList.firstWhere((todo) => todo.docId == todo.docId).subtitle;
+    todoList.refresh();
+    await storageService.update('todoList', todo.docId, todo.toJson());
+  }
 }

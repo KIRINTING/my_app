@@ -5,8 +5,7 @@ import 'package:my_app/models/todo_model.dart';
 
 // ignore: must_be_immutable
 class AddTodoView extends StatefulWidget {
-
-  AddTodoView({super.key});
+  AddTodoView({super.key, this.todo});
   TodoModel? todo;
 
   @override
@@ -57,17 +56,24 @@ class _AddTodoViewState extends State<AddTodoView> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (textEditingController.text.isNotEmpty) {
+                if (textEditingController.text.isEmpty) return;
+                if (widget.todo != null) {
+                  widget.todo!.title = textEditingController.text;
+                  widget.todo!.subtitle = subtitleController.text;
+                  todoController.updateTodo(widget.todo!);
+                } else {
                   todoController.addTodo(
-                      textEditingController.text, subtitleController.text);
-                  Get.back();
-                  Get.snackbar(
-                    "แจ้งแตือน",
-                    "บันทึกสำเร็จ",
-                    backgroundColor: Colors.white12,
-                    snackPosition: SnackPosition.BOTTOM,
+                    textEditingController.text,
+                    subtitleController.text,
                   );
                 }
+                Get.back();
+                Get.snackbar(
+                  "แจ้งเตือน",
+                  "บันทึกสำเร็จ",
+                  backgroundColor: Colors.green,
+                  snackPosition: SnackPosition.BOTTOM,
+                );
               },
               child: const Text('บันทึก'),
             ),
