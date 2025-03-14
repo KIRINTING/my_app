@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_app/controllers/todo_controller.dart';
+import 'package:my_app/models/todo_model.dart';
 
-class AddTodoView extends StatelessWidget {
-  final TodoController todoController = Get.find();
-  final TextEditingController textEditingController = TextEditingController();
-  final TextEditingController subtitleController = TextEditingController();
+// ignore: must_be_immutable
+class AddTodoView extends StatefulWidget {
 
   AddTodoView({super.key});
+  TodoModel? todo;
+
+  @override
+  State<AddTodoView> createState() => _AddTodoViewState();
+}
+
+class _AddTodoViewState extends State<AddTodoView> {
+  final TodoController todoController = Get.find();
+
+  final TextEditingController textEditingController = TextEditingController();
+
+  final TextEditingController subtitleController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.todo != null) {
+      textEditingController.text = widget.todo!.title;
+      subtitleController.text = widget.todo!.subtitle;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +64,7 @@ class AddTodoView extends StatelessWidget {
                   Get.snackbar(
                     "แจ้งแตือน",
                     "บันทึกสำเร็จ",
-                    backgroundColor: Colors.orange,
+                    backgroundColor: Colors.white12,
                     snackPosition: SnackPosition.BOTTOM,
                   );
                 }

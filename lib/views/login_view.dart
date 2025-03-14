@@ -2,99 +2,118 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_app/controllers/auth_controller.dart';
 import 'package:my_app/views/register_view.dart';
-import 'package:my_app/widgets/app_text_field.dart';
+import 'package:my_app/widgets/botton_hover.dart';
 
-// ignore: must_be_immutable
-class LoginView extends StatelessWidget {
-  LoginView({super.key});
+class LoginView extends StatefulWidget {
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
 
+class _LoginViewState extends State<LoginView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isPasswordVisible = false; // ตัวแปรเก็บสถานะแสดง/ซ่อนรหัสผ่าน
 
   AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('LOGIN'),
-        ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            AppTextField(label: 'Email', controller: emailController),
-            AppTextField(label: 'Password', controller: passwordController),
-            ElevatedButton(
-              onPressed: () async {
-                // validate email
-                if (!GetUtils.isEmail(emailController.text)) {
-                  Get.snackbar('Error', 'Invalid email address');
-                  return;
-                }
-                // validate password
-                if (passwordController.text.length < 6) {
-                  Get.snackbar(
-                    'Error',
-                    'Password must be at least 6 characters',
-                  );
-                  return;
-                }
-                await authController.login(
-                  emailController.text,
-                  passwordController.text,
-                );
-                emailController.clear();
-                passwordController.clear();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,  // สีปกติของปุ่ม
-                foregroundColor: Colors.white,    // สีข้อความ
-                shadowColor: Colors.white10,      // เงาของปุ่ม
-                elevation: 4,                     // ยกปุ่มขึ้นให้ดูเด่น
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12), // ทำให้ขอบมน
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "เข้าสู่ระบบ",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-              ).copyWith(
-                overlayColor: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.hovered)) {
-                    return Colors.blueAccent.withOpacity(0.2); // เปลี่ยนสีพื้นหลังเมื่อ hover
-                  }
-                  if (states.contains(MaterialState.pressed)) {
-                    return Colors.blueAccent.withOpacity(0.4); // เปลี่ยนสีเมื่อคลิก
-                  }
-                  return null;
-                }),
-              ),
-              child: Text('Login'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(RegisterView());
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,  // สีปกติของปุ่ม
-                foregroundColor: Colors.white,    // สีข้อความ
-                shadowColor: Colors.white10,      // เงาของปุ่ม
-                elevation: 4,                     // ยกปุ่มขึ้นให้ดูเด่น
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12), // ทำให้ขอบมน
+                SizedBox(height: 20),
+
+                // ช่องกรอก Email
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                 ),
-              ).copyWith(
-                overlayColor: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.hovered)) {
-                    return Colors.blueAccent.withOpacity(0.2); // เปลี่ยนสีพื้นหลังเมื่อ hover
-                  }
-                  if (states.contains(MaterialState.pressed)) {
-                    return Colors.blueAccent.withOpacity(0.4); // เปลี่ยนสีเมื่อคลิก
-                  }
-                  return null;
-                }),
-              ),
-              child: Text('Register'),
+                SizedBox(height: 12),
+
+                // ช่องกรอก Password พร้อมไอคอนแสดงซ่อนรหัสผ่าน
+                TextField(
+                  controller: passwordController,
+                  obscureText: !isPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+
+                // ลืมรหัสผ่าน? และ สมัครสมาชิก
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {
+                        // ฟังก์ชันสำหรับลืมรหัสผ่าน
+                      },
+                      icon: Icon(Icons.help_outline, size: 18),
+                      label: Text("ลืมรหัสผ่าน?"),
+                    ),
+                    TextButton.icon(
+                      onPressed: () {
+                        Get.to(RegisterView());
+                      },
+                      icon: Icon(Icons.person_add, size: 18),
+                      label: Text("สมัครสมาชิก"),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+
+                // ปุ่มเข้าสู่ระบบ
+                HoverButton(
+                  onPressed: () async {
+                    if (!GetUtils.isEmail(emailController.text)) {
+                      Get.snackbar("Error", "Invalid email address");
+                      return;
+                    }
+                    if (passwordController.text.length < 6) {
+                      Get.snackbar("Error", "Password must be at least 6 characters");
+                      return;
+                    }
+                    await authController.login(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                    emailController.clear();
+                    passwordController.clear();
+                  },
+                  bts: "เข้าสู่ระบบ",
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

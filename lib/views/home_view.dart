@@ -13,12 +13,17 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('To-Do List'), backgroundColor: Colors.orangeAccent,
-      actions: [
-        IconButton(onPressed: () {
-          authController.logout();
-        }, icon: Icon(Icons.logout)),
-      ],),
+      appBar: AppBar(
+        title: Text('To-Do List'),
+        backgroundColor:Colors.black12,
+        actions: [
+          IconButton(
+              onPressed: () {
+                authController.logout();
+              },
+              icon: Icon(Icons.logout)),
+        ],
+      ),
       body: Obx(
         () => ListView.builder(
           itemCount: todoController.todoList.length,
@@ -29,16 +34,16 @@ class HomeView extends StatelessWidget {
               title: Text(todo.title),
               subtitle: Text(todo.subtitle),
               onToggle: () => todoController.toggleTodo(
-              todo.docId,
-              !todo.isCompleted,
+                todo.docId,
+                !todo.isCompleted,
               ),
               onDelete: () {
-              todoController.deleteTodo(todo.docId);
-              Get.snackbar(
-                'Deleted',
-                'Deleted "${todo.title}"',
-                snackPosition: SnackPosition.BOTTOM,
-              );
+                todoController.deleteTodo(todo.docId);
+                Get.snackbar(
+                  'Deleted',
+                  'Deleted "${todo.title}"',
+                  snackPosition: SnackPosition.BOTTOM,
+                );
               },
             );
           },

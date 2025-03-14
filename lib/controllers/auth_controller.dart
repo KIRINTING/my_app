@@ -17,7 +17,7 @@ class AuthController extends GetxController {
   }
 
   // 🟢 ฟังก์ชันสมัครสมาชิก
-  Future<void> register(String email, String password,) async {
+  Future<void> register(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
         email: email,
